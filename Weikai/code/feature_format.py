@@ -21,11 +21,16 @@ def feature_format(task):
         pd_vol_test = pd.read_csv('../../Processed_data/by_weikai/big_test_volume.csv')
         pd_vol_train = pd_vol_train.set_index(['time'])
         pd_vol_test = pd_vol_test.set_index(['time'])
-        vol_train = pd_vol_train.groupby(['time_window','tollgate_id','direction','weekday','hour'])\
+        print pd_vol_train.head()
+        vol_train = pd_vol_train.groupby(['time_window','tollgate_id','direction','weekday',
+                                          'hour','pressure','temperature','rel_humidity','wind_speed',
+                                          'wind_direction','sea_pressure','precipitation'])\
                     .size().reset_index().rename(columns = {0:'volume'})
-        vol_test = pd_vol_test.groupby(['time_window','tollgate_id','direction','weekday','hour'])\
+        vol_test = pd_vol_test.groupby(['time_window','tollgate_id','direction','weekday',
+                                        'hour','pressure','temperature','rel_humidity','wind_speed',
+                                          'wind_direction','sea_pressure','precipitation'])\
                     .size().reset_index().rename(columns = {0:'volume'})
-                    
+        
         x = pd.Series(vol_train['time_window'].unique())
         s = pd.Series(range(len(x)),index = x.values)
         vol_train['window_n'] = vol_train['time_window'].map(s)
